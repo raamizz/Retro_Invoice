@@ -1,10 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-<<<<<<< HEAD
-=======
   "description": "",
->>>>>>> f1836fa8ef0aa83c96bd1d71f595f762901d2cf7
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
