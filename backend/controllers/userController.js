@@ -38,3 +38,20 @@ exports.login = async (req, res) => {
   }
 };
 
+// Get User Details (after login)
+exports.getUserDetails = async (req, res) => {
+  try {
+    const userId = req.query.id; // e.g., /api/user/details?id=123
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+    const user = await Users.findUserById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({ user });
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching user details', error: err.message });
+  }
+};
+
