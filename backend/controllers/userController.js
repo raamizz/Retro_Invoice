@@ -1,6 +1,13 @@
 const Users = require('../models/user');
 const { validateSignUpData } = require('../utils/validation');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || 'youraccesstokensecret';
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || 'yourrefreshtokensecret';
+const ACCESS_TOKEN_EXPIRES_IN = '15m';
+const REFRESH_TOKEN_EXPIRES_IN = '7d';
+let refreshTokens = [];
 
 // User Signup
 exports.signUp = async (req, res) => {
@@ -19,22 +26,44 @@ exports.signUp = async (req, res) => {
 // User Login
 exports.login = async (req, res) => {
   try {
-    console.log("insidee")
     const { email, password } = req.body;
     const user = await Users.findUserByEmail(email);
     if (!user) {
-        console.log(user)
       return res.status(401).json({ message: 'Invalid email or password' });
     }
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log(password,user.password)
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
-    res.status(200).json({ message: 'Login successful', user });
+    // Generate tokens
+    const payload = { id: user.id, email: user.email, role: user.role };
+    const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRES_IN });
+    const refreshToken = jwt.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRES_IN });
+    refreshTokens.push(refreshToken);
+    res.status(200).json({
+      message: 'Login successful',
+      accessToken,
+      refreshToken,
+      user
+    });
   } catch (err) {
-    console.log(err)
     res.status(500).json({ message: 'Error logging in', error: err.message });
+  }
+};
+
+// Refresh Token
+exports.refreshToken = (req, res) => {
+  const { refreshToken } = req.body;
+  if (!refreshToken || !refreshTokens.includes(refreshToken)) {
+    return res.status(403).json({ message: 'Refresh token not found, login again' });
+  }
+  try {
+    const user = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+    const payload = { id: user.id, email: user.email, role: user.role };
+    const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRES_IN });
+    res.json({ accessToken });
+  } catch (err) {
+    return res.status(403).json({ message: 'Invalid refresh token' });
   }
 };
 
