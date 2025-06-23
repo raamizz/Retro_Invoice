@@ -14,7 +14,7 @@ exports.signUp = async (req, res) => {
   try {
     validateSignUpData(req);
     const { name, email, password, companyName } = req.body;
-    const role = 2; // Assuming 2 is for regular users
+    const role = 2; 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await Users.createUsers({ name, email, password: hashedPassword, role, companyName });
     res.status(201).json({ message: 'User created', user });
