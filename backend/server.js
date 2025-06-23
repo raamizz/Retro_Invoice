@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const pool = require("./config/database")
-const userRoutes = require("./controllers/userController")
+const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 
 dotenv.config();
@@ -14,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 // app.use("/api",userRoutes)
 app.use("/api", adminRoutes);
+app.use("/api", userRoutes);
 
 pool.connect()
   .then(() => {
