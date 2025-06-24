@@ -2,7 +2,7 @@ const pool = require('../config/database');
 
 async function createUsers({ name, email, password, role, companyName }) {
   const result = await pool.query(
-    'INSERT INTO "users" (name, email, password, role, "companyName") VALUES ($1, $2, $3, $4, $5) RETURNING *',
+    'INSERT INTO "users" (name, email, password, role, "companyName", "createdAt", "updatedAt") VALUES ($1, $2, $3, $4, $5, NOW(), NOW()) RETURNING *',
     [name, email, password, role, companyName]
   );
   return result.rows[0];
