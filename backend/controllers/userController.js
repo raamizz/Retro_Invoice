@@ -23,7 +23,7 @@ exports.signUp = async (req, res) => {
     validateSignUpData(req);
     const { name, email, password, companyName } = req.body;
     const role = 2; 
-    const existingAdmin = await Users.findAdminByEmail(email);
+    const existingAdmin = await Users.findUserByEmail(email);
     if (existingAdmin) {
       return res.status(400).json({ message: 'User with this email already exists' });
     }
