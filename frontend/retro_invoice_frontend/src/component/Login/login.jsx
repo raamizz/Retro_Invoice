@@ -88,7 +88,7 @@ const Login = () => {
           <div className="text-left mb-4">
             <label className="block text-gray-600 mb-1">Email</label>
             <div className="flex items-center border border-gray-300 rounded px-3 py-2">
-              <span className="mr-2 text-gray-400">
+              <span className="mr-2">
                 <FaUser />
               </span>
               <input
@@ -107,7 +107,7 @@ const Login = () => {
           <div className="text-left mb-4">
             <label className="block text-gray-600 mb-1">Password</label>
             <div className="flex items-center border border-gray-300 rounded px-3 py-2 relative">
-              <span className="mr-2 text-gray-400">
+              <span className="mr-2 ">
                 <FaLock />
               </span>
               <input
