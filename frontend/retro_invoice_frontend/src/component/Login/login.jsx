@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { mainUrl } from "@/utils/constants";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -10,8 +10,14 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [response,setResponse]=useState();
-  const router =useRouter();
+  const [response, setResponse] = useState();
+  const router = useRouter();
+  useEffect(() => {
+    const token = localStorage.getItem("refreshToken");
+    if (token) {
+      router.replace("/dashboard");
+    }
+  }, []);
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
@@ -20,7 +26,6 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    
     setErrors({ username: "", password: "" });
 
     let valid = true;
@@ -60,12 +65,10 @@ const Login = () => {
         throw new Error(data.message || "Login failed");
       }
       setResponse(data);
-      localStorage.setItem("refreshToken",data.refreshToken);
-      sessionStorage.setItem("accessToken",data.accessToken);
+      localStorage.setItem("refreshToken", data.accessToken);
       console.log("Login successful:", data);
-      alert("Login successful");
-      router.push('/dashboard')
-            
+      // alert("Login successful");
+      router.push("/dashboard");
     } catch (error) {
       console.error("Login error:", error.message);
       alert(error.message);
@@ -73,14 +76,13 @@ const Login = () => {
       setLoading(false);
     }
   };
-  
-  
+
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 px-4"> 
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 px-4 text-black">
       <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-sm text-center">
         <h2 className="text-2xl sm:text-3xl font-bold mb-6">Login</h2>
 
