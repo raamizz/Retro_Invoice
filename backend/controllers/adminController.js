@@ -1,4 +1,5 @@
-const Admin = require('../models/admin');
+const Admin = require('../models/user');
+
 const { validateSignUpData } = require('../utils/validation');
 const bcrypt = require('bcrypt');
 
@@ -9,8 +10,12 @@ exports.signUp = async (req, res) => {
     validateSignUpData(req);
     const { name, email, password, companyName } = req.body;
     const role = 1;
+    const existingAdmin = await Admin.findUserByEmail(email);
+    if (existingAdmin) {
+      return res.status(400).json({ message: 'Admin with this email already exists' });
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const admin = await Admin.createAdmin({ name, email, password: hashedPassword, role, companyName });
+    const admin = await Admin.createUsers({ name, email, password: hashedPassword, role, companyName });
     res.status(201).json({ message: 'Admin created', admin });
   } catch (err) {
     res.status(500).json({ message: 'Error creating admin', error: err.message });
