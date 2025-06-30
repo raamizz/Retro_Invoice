@@ -72,9 +72,9 @@ exports.login = async (req, res) => {
 // Get User Details (after login)
 exports.getUserDetails = async (req, res) => {
   try {
-    const userId = req.query.id; // e.g., /api/user/details?id=123
+    const userId = req.user && req.user.id; // Get user ID from token
     if (!userId) {
-      return res.status(400).json({ message: 'User ID is required' });
+      return res.status(400).json({ message: 'User ID is required in token' });
     }
     const user = await Users.findUserById(userId); 
     if (!user) {
