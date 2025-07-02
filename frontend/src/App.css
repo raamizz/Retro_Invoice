@@ -1,0 +1,171 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* App.css */
+.invoice-container {
+  font-family: Arial, sans-serif;
+  background: #fff;
+  padding: 0;
+  margin: 0;
+}
+
+.invoice-header {
+  background: #000;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px 10px 30px;
+}
+.invoice-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: 1px;
+}
+.invoice-actions button {
+  margin-left: 10px;
+  padding: 8px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.invoice-actions .save {
+  background: #2ecc40;
+  color: #fff;
+}
+.invoice-actions .reset {
+  background: #f4f4f4;
+  color: #222;
+}
+.invoice-actions .logout {
+  background: #fff;
+  color: #222;
+  border: 1px solid #ccc;
+}
+
+.invoice-form {
+  padding: 20px 30px 0 30px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 18px 18px;
+  margin-bottom: 30px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.form-group .required {
+  color: #e74c3c;
+}
+.form-group input,
+.form-group select {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 1rem;
+}
+.radio-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 2px;
+}
+.tables-section {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+}
+.table-container {
+  flex: 1;
+  background: #fafafa;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 12px 12px 0 12px;
+}
+.table-container h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.cost-table, .gst-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+.cost-table th, .cost-table td,
+.gst-table th, .gst-table td {
+  border: 1px solid #d0d0d0;
+  padding: 6px 8px;
+  text-align: right;
+  font-size: 0.98rem;
+}
+.cost-table th, .gst-table th {
+  background: #f4f4f4;
+  font-weight: 600;
+  text-align: center;
+}
+.cost-table td:first-child, .gst-table td:first-child {
+  text-align: left;
+}
+.cost-table tfoot td, .gst-table tfoot td {
+  font-weight: bold;
+  background: #f4f4f4;
+}
+@media (max-width: 1200px) {
+  .form-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .tables-section {
+    flex-direction: column;
+  }
+}
+@media (max-width: 700px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .invoice-header, .invoice-form {
+    padding: 10px;
+  }
+}
