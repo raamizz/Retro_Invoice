@@ -12,7 +12,7 @@ const InvoiceForm = () => (
         <select className="border rounded p-1"><option>Vendor Credit Note</option></select>
       </div>
       <div className="flex flex-col">
-        <label className="font-medium mb-1">Proforma Invoice</label>
+        <label className="font-medium mb-1">Corresponding Proforma Invoice (If Any)</label>
         <input type="text" className="border rounded px-2 py-1" />
       </div>
       <div className="flex flex-col">
@@ -43,10 +43,6 @@ const InvoiceForm = () => (
       <div className="flex flex-col">
         <label className="font-medium mb-1">Office/Vessel </label>
         <select className="border rounded px-2 py-1"><option>Willows (vessel)</option></select>
-      </div>
-      <div className="flex flex-col">
-        <label className="font-medium mb-1">Dry Dock</label>
-        <select className="border rounded px-2 py-1"><option>-- Select --</option></select>
       </div>
       {/* Row 2 */}
      
