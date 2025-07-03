@@ -22,7 +22,7 @@ const GSTDetailsTable = () => (
         {rates.map((rate, idx) => (
           <tr key={idx}>
             <td className="border border-gray-300 text-right">{rate}</td>
-            <td className="border border-gray-300 text-right">0.00</td>
+            <td className="border border-gray-300 text-right"><input type='number' min='0' step='0.01'/></td>
             <td className="border border-gray-300"></td>
             <td className="border border-gray-300 text-right">0.00</td>
             <td className="border border-gray-300 text-right">0.00</td>
