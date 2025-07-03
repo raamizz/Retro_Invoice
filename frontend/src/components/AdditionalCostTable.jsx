@@ -1,10 +1,10 @@
 import React from 'react';
 
 const rows = [
-  { name: 'Cess', amount: '0.00' },
-  { name: 'Courier Charge', amount: '0.00' },
-  { name: 'Transportation Charge', amount: '0.00' },
-  { name: 'Delivery Charge', amount: '0.00' },
+  { name: 'Cess' },
+  { name: 'Courier Charge' },
+  { name: 'Transportation Charge'},
+  { name: 'Delivery Charge' },
 ];
 
 const AdditionalCostTable = () => (
@@ -25,8 +25,18 @@ const AdditionalCostTable = () => (
         {rows.map((row, idx) => (
           <tr key={idx}>
             <td className="border border-gray-300 text-left">{row.name}</td>
-            <td className="border border-gray-300"></td>
-            <td className="border border-gray-300 text-right">{row.amount}</td>
+            <td className="border border-gray-300"><input
+                    type="text"
+                    className="w-full focus:outline-none focus:ring-0"
+                  /></td>
+            <td className="border border-gray-300 text-right"><input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value="0.00"
+                    className="w-full text-right px-2 py-1 focus:outline-none focus:ring-0"
+
+                  /></td>
             <td className="border border-gray-300 text-right">0%</td>
             <td className="border border-gray-300 text-right">0.00</td>
             <td className="border border-gray-300 text-right">0.00</td>
