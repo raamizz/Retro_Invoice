@@ -26,7 +26,7 @@ const Invoice = () => {
             </label>
             <label className="flex items-center">
               <input type="radio" name="gstTreatment" className="mr-1" />{" "}
-              Domestic (IGST)
+              IGST
             </label>
           </div>
         </div>
