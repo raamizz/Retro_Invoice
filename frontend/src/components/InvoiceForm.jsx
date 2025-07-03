@@ -3,10 +3,9 @@ import AdditionalCostTable from './AdditionalCostTable';
 import GSTDetailsTable from './GSTDetailsTable';
 
 const InvoiceForm = () => (
+  
   <form className="">
-    {/* Top Form Fields Grid */}
     <div className="grid grid-cols-2 gap-4 mb-8">
-      {/* Row 1 */}
       <div className="flex flex-col">
         <label className="font-medium">Invoice Type <span className="text-red-500">*</span></label>
         <select className="border rounded p-1"><option>Vendor Credit Note</option></select>
@@ -48,7 +47,6 @@ const InvoiceForm = () => (
         <label className="font-medium mb-1">Dry Dock</label>
         <select className="border rounded px-2 py-1"><option>-- Select --</option></select>
       </div>
-      {/* Row 2 */}
      
       <div className="flex flex-col">
         <label className="font-medium mb-1">Currency <span className="text-red-500">*</span></label>
@@ -59,19 +57,17 @@ const InvoiceForm = () => (
         <input type="text" placeholder="Counter Party" className="border rounded px-2 py-1" />
       </div>
      
-      {/* Row 3 */}
       <div className="flex flex-col">
         <label className="font-medium mb-1">Counter Party Invoice Ref</label>
         <input type="text" className="border rounded px-2 py-1" />
       </div>
-      {/* Row 4 */}
+      
     
       <div className="flex flex-col">
         <label className="font-medium mb-1">Total Amount <span className="text-red-500">*</span></label>
         <input type="text" className="border rounded px-2 py-1" />
       </div>
     </div>
-    {/* Tables Section */}
     
   </form>
 
