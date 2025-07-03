@@ -1,0 +1,179 @@
+[
+    {
+      "name": "invoice_type",
+      "type": "select",
+      "label": "Invoice Type",
+      "required": true,
+      "options": [
+        {"value": "invoice", "label": "Invoice"},
+        {"value": "proforma", "label": "Proforma Invoice"},
+        {"value": "credit_note", "label": "Credit Note"}
+      ]
+    },
+    {
+      "name": "invoice_date",
+      "type": "date",
+      "label": "Invoice Date",
+      "required": true
+    },
+    {
+      "name": "due_date",
+      "type": "date", 
+      "label": "Due Date",
+      "required": true
+    },
+    {
+      "name": "organization",
+      "type": "select",
+      "label": "Organization",
+      "required": true,
+      "options": [
+        {"value": "company_a", "label": "Company A Ltd"},
+        {"value": "company_b", "label": "Company B Inc"},
+        {"value": "company_c", "label": "Company C Corp"}
+      ]
+    },
+    {
+      "name": "counter_party",
+      "type": "text",
+      "label": "Counter Party",
+      "required": true,
+      "placeholder": "Enter client/vendor name"
+    },
+    {
+      "name": "purchase_order",
+      "type": "text",
+      "label": "Purchase Order",
+      "placeholder": "PO Number"
+    },
+    {
+      "name": "received_date",
+      "type": "date",
+      "label": "Received Date"
+    },
+    {
+      "name": "department",
+      "type": "select",
+      "label": "Department",
+      "required": true,
+      "options": [
+        {"value": "finance", "label": "Finance"},
+        {"value": "operations", "label": "Operations"},
+        {"value": "sales", "label": "Sales"},
+        {"value": "marketing", "label": "Marketing"}
+      ]
+    },
+    {
+      "name": "currency",
+      "type": "select",
+      "label": "Currency",
+      "required": true,
+      "options": [
+        {"value": "USD", "label": "USD - US Dollar"},
+        {"value": "EUR", "label": "EUR - Euro"},
+        {"value": "GBP", "label": "GBP - British Pound"},
+        {"value": "INR", "label": "INR - Indian Rupee"}
+      ]
+    },
+    {
+      "name": "cost_center",
+      "type": "select",
+      "label": "Cost Center (Budget Code)",
+      "required": true,
+      "options": [
+        {"value": "CC001", "label": "CC001 - Operations"},
+        {"value": "CC002", "label": "CC002 - Marketing"},
+        {"value": "CC003", "label": "CC003 - R&D"},
+        {"value": "CC004", "label": "CC004 - Administration"}
+      ]
+    },
+    {
+      "name": "cargo_type",
+      "type": "select",
+      "label": "Cargo Type",
+      "options": [
+        {"value": "standard", "label": "Standard"},
+        {"value": "express", "label": "Express"},
+        {"value": "overnight", "label": "Overnight"},
+        {"value": "bulk", "label": "Bulk"}
+      ]
+    },
+    {
+      "name": "additional_costs_table",
+      "type": "table",
+      "label": "Additional Cost",
+      "tableConfig": {
+        "columns": [
+          {"name": "name", "label": "Name", "type": "text", "width": "25%"},
+          {"name": "hsn_sac", "label": "HSN/SAC", "type": "text", "width": "15%"},
+          {"name": "amount", "label": "Amount", "type": "number", "width": "15%"},
+          {"name": "gst_rate", "label": "GST Rate", "type": "select", "width": "15%", "options": [
+            {"value": "0", "label": "0%"},
+            {"value": "5", "label": "5%"},
+            {"value": "12", "label": "12%"},
+            {"value": "18", "label": "18%"},
+            {"value": "28", "label": "28%"}
+          ]},
+          {"name": "tax_total", "label": "Tax Total", "type": "number", "width": "15%", "readonly": true},
+          {"name": "total", "label": "Total", "type": "number", "width": "15%", "readonly": true}
+        ],
+        "defaultRows": [
+          {"name": "Cess", "hsn_sac": "", "amount": "0.00", "gst_rate": "0", "tax_total": "0.00", "total": "0.00"},
+          {"name": "Courier Charge", "hsn_sac": "", "amount": "0.00", "gst_rate": "0", "tax_total": "0.00", "total": "0.00"},
+          {"name": "Transportation Charge", "hsn_sac": "", "amount": "0.00", "gst_rate": "5", "tax_total": "0.00", "total": "0.00"},
+          {"name": "Delivery Charge", "hsn_sac": "", "amount": "0.00", "gst_rate": "12", "tax_total": "0.00", "total": "0.00"}
+        ],
+        "allowAddRows": true,
+        "allowDeleteRows": true,
+        "calculations": {
+          "tax_total": "amount * (gst_rate / 100)",
+          "total": "amount + tax_total"
+        }
+      }
+    },
+    {
+      "name": "gst_details_table", 
+      "type": "table",
+      "label": "GST Details",
+      "help": "Please enter item level IGST or SGST+CGST amounts",
+      "tableConfig": {
+        "columns": [
+          {"name": "rate_percent", "label": "Rate (%)", "type": "number", "width": "15%"},
+          {"name": "amount_hsn_sac", "label": "Amount HSN/SAC", "type": "number", "width": "20%"},
+          {"name": "tax_total", "label": "Tax Total", "type": "number", "width": "20%"},
+          {"name": "total", "label": "Total", "type": "number", "width": "20%", "readonly": true}
+        ],
+        "defaultRows": [
+          {"rate_percent": "0", "amount_hsn_sac": "0.00", "tax_total": "0.00", "total": "0.00"},
+          {"rate_percent": "3", "amount_hsn_sac": "0.00", "tax_total": "0.00", "total": "0.00"},
+          {"rate_percent": "5", "amount_hsn_sac": "0.00", "tax_total": "0.00", "total": "0.00"},
+          {"rate_percent": "12", "amount_hsn_sac": "0.00", "tax_total": "0.00", "total": "0.00"},
+          {"rate_percent": "18", "amount_hsn_sac": "0.00", "tax_total": "0.00", "total": "0.00"},
+          {"rate_percent": "28", "amount_hsn_sac": "0.00", "tax_total": "0.00", "total": "0.00"}
+        ],
+        "allowAddRows": false,
+        "allowDeleteRows": false,
+        "calculations": {
+          "total": "amount_hsn_sac + tax_total"
+        }
+      }
+    },
+    {
+      "name": "total_amount",
+      "type": "number",
+      "label": "Total Amount", 
+      "readonly": true,
+      "help": "Auto-calculated from tables above"
+    },
+    {
+      "name": "approval_status",
+      "type": "select",
+      "label": "Approval Status",
+      "required": true,
+      "options": [
+        {"value": "pending", "label": "Pending"},
+        {"value": "approved", "label": "Approved"},
+        {"value": "rejected", "label": "Rejected"}
+      ]
+    }
+  ] 
