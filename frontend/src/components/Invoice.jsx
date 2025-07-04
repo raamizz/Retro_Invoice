@@ -25,26 +25,7 @@ const Invoice = () => {
               <InvoiceForm />
             </div>
             <div className="md:w-2/4 w-full">
-              <div className="flex flex-col col-span-2">
-                <label className="font-medium mb-1">
-                  GST Treatment (Maritime){" "}
-                  <span className="text-red-500">*</span>
-                </label>
-                <div className="flex flex-wrap gap-4 mt-1">
-                  <label className="flex items-center">
-                    <input type="radio" name="gstTreatment" className="mr-1" />
-                    CGST+SGST
-                  </label>
-                  <label className="flex items-center">
-                    <input type="radio" name="gstTreatment" className="mr-1" />
-                    Export/Zero-Rated
-                  </label>
-                  <label className="flex items-center">
-                    <input type="radio" name="gstTreatment" className="mr-1" />
-                    IGST
-                  </label>
-                </div>
-              </div>
+              
               <GSTDetailsTable />
               <AdditionalCostTable />
             </div>
