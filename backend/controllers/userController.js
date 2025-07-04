@@ -56,13 +56,17 @@ exports.login = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
+    // Remove password before sending user object
+    
     // Generate access token only
     const payload = { id: user.id, email: user.email, role: user.role };
     const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRES_IN });
+    const userWithoutPassword = { ...user };
+    delete userWithoutPassword.password;
     res.status(200).json({
       message: 'Login successful',
       accessToken,
-      user
+      user: userWithoutPassword
     });
   } catch (err) {
     res.status(500).json({ message: 'Error logging in', error: err.message });

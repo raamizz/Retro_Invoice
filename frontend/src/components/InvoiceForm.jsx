@@ -10,15 +10,18 @@ const InvoiceForm = () => (
           Invoice Type <span className="text-red-500">*</span>
         </label>
         <select className="border rounded p-1">
-          <option>Vendor Credit Note</option>
-          <option>Vendor Debit Note</option>
-          <option>Vendor FDA</option>
           <option>Vendor Invoice</option>
           <option>Vendor Proforma Invoice</option>
+          <option>Vendor PDA</option>
+          <option>Vendor FDA</option>
+          <option>Vendor Credit Note</option>
+          <option>Vendor Debit Note</option>
         </select>
       </div>
       <div className="flex flex-col">
-        <label className="font-medium mb-1">Corresponding Proforma Invoice (If Any)</label>
+        <label className="font-medium mb-1">
+          Corresponding Proforma Invoice (If Any)
+        </label>
         <input type="text" className="border rounded px-2 py-1" />
       </div>
       <div className="flex flex-col">
@@ -66,7 +69,7 @@ const InvoiceForm = () => (
           <option>INR</option>
         </select>
       </div>
-      <div className="flex flex-col">
+      {/* <div className="flex flex-col">
         <label className="font-medium mb-1">
           Counter Party <span className="text-red-500">*</span>
         </label>
@@ -80,7 +83,7 @@ const InvoiceForm = () => (
       <div className="flex flex-col">
         <label className="font-medium mb-1">Counter Party Invoice Ref</label>
         <input type="text" className="border rounded px-2 py-1" />
-      </div>
+      </div> */}
 
       <div className="flex flex-col">
         <label className="font-medium mb-1">
