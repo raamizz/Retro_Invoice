@@ -5,11 +5,18 @@ const rates = [0, 3, 5, 12, 18, 28];
 const GSTDetailsTable = () => {
   const [gstType, setGstType] = useState("");
   const [amounts, setAmounts] = useState(rates.map(() => ""));
+  const [hsnSacCodes, setHsnSacCodes] = useState(rates.map(() => ""));
 
   const handleAmountChange = (index, value) => {
     const updated = [...amounts];
     updated[index] = value;
     setAmounts(updated);
+  };
+
+  const handleHsnChange = (index, value) => {
+    const updated = [...hsnSacCodes];
+    updated[index] = value;
+    setHsnSacCodes(updated);
   };
 
   const calculate = (amount, rate) => {
@@ -50,10 +57,15 @@ const GSTDetailsTable = () => {
 
   const rows = rates.map((rate, idx) => {
     const amt = amounts[idx];
+    const result = calculate(amt, rate);
+    const hsnRequired = result.cgst > 0 || result.sgst > 0 || result.igst > 0;
+
     return {
       rate,
       amount: parseFloat(amt || 0),
-      ...calculate(amt, rate),
+      hsn: hsnSacCodes[idx],
+      hsnRequired,
+      ...result,
     };
   });
 
@@ -99,6 +111,14 @@ const GSTDetailsTable = () => {
             />
             IGST
           </label>
+          <div className="flex">
+            <label className="font-medium mb-1">
+              Currency <span className="text-red-500">*</span>
+            </label>
+            <select className="border rounded px-2 py-1">
+              <option>INR</option>
+            </select>
+          </div>
         </div>
       </div>
       <div className="flex-1 bg-gray-50 border border-gray-200 rounded p-3 mt-4">
@@ -135,44 +155,66 @@ const GSTDetailsTable = () => {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row, idx) => (
-              <tr key={idx}>
-                <td className="border border-gray-300 text-right">
-                  {row.rate}
-                </td>
-                <td className="border border-gray-300 text-right">
-                  <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={amounts[idx]}
-                    className="w-full text-right px-2 py-1 focus:outline-none focus:ring-0"
-                    onChange={(e) => handleAmountChange(idx, e.target.value)}
-                  />
-                </td>
-                <td className="border border-gray-300 text-center">
-                  <input
-                    type="text"
-                    className="w-full focus:outline-none focus:ring-0"
-                  />
-                </td>
-                <td className="border border-gray-300 text-right">
-                  {row.cgst.toFixed(2)}
-                </td>
-                <td className="border border-gray-300 text-right">
-                  {row.sgst.toFixed(2)}
-                </td>
-                <td className="border border-gray-300 text-right">
-                  {row.igst.toFixed(2)}
-                </td>
-                <td className="border border-gray-300 text-right">
-                  {row.taxTotal.toFixed(2)}
-                </td>
-                <td className="border border-gray-300 text-right">
-                  {row.total.toFixed(2)}
-                </td>
-              </tr>
-            ))}
+            {rows.map((row, idx) => {
+              const isDisabled = gstType === "zero_rated" && row.rate !== 0;
+
+              return (
+                <tr key={idx}>
+                  <td className="border border-gray-300 text-right">
+                    {row.rate}
+                  </td>
+
+                  <td className="border border-gray-300 text-right">
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={amounts[idx]}
+                      disabled={isDisabled}
+                      className={`w-full text-right px-2 py-1 focus:outline-none focus:ring-0 ${
+                        isDisabled
+                          ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+                          : ""
+                      }`}
+                      onChange={(e) => handleAmountChange(idx, e.target.value)}
+                    />
+                  </td>
+
+                  <td className="border border-gray-300 text-center">
+                    <input
+                      type="text"
+                      value={hsnSacCodes[idx]}
+                      onChange={(e) => handleHsnChange(idx, e.target.value)}
+                      disabled={isDisabled}
+                      placeholder={row.hsnRequired ? "Required" : ""}
+                      className={`w-full text-center px-2 py-1 focus:outline-none focus:ring-0 ${
+                        isDisabled
+                          ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+                          : row.hsnRequired && !hsnSacCodes[idx]
+                          ? "border-red-500 placeholder-red-400"
+                          : ""
+                      }`}
+                    />
+                  </td>
+
+                  <td className="border border-gray-300 text-right">
+                    {row.cgst.toFixed(2)}
+                  </td>
+                  <td className="border border-gray-300 text-right">
+                    {row.sgst.toFixed(2)}
+                  </td>
+                  <td className="border border-gray-300 text-right">
+                    {row.igst.toFixed(2)}
+                  </td>
+                  <td className="border border-gray-300 text-right">
+                    {row.taxTotal.toFixed(2)}
+                  </td>
+                  <td className="border border-gray-300 text-right">
+                    {row.total.toFixed(2)}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
           <tfoot>
             <tr>
