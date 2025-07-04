@@ -60,6 +60,7 @@ const Login = () => {
       }
       setResponse(data);
       localStorage.setItem("refreshToken", data.accessToken);
+      localStorage.setItem("organizations",JSON.stringify(data.user.organizations));
       console.log("Login successful:", data);
       navigate('/')
       // alert("Login successful");
@@ -76,9 +77,9 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 px-4 text-black">
+    <div className="min-h-screen flex items-center justify-center bg-black px-4 text-black">
       <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-sm text-center">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6">Login</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 ">RETRO INVOICE</h2>
 
         <form onSubmit={handleLogin}>
           <div className="text-left mb-4">
@@ -131,7 +132,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 mt-4 bg-gradient-to-r from-cyan-400 to-pink-500 text-white font-semibold rounded-full shadow-md hover:opacity-90 text-sm sm:text-base ${
+            className={`w-full py-2 mt-4 bg-gradient-to-r bg-black text-white font-semibold rounded-full shadow-md hover:opacity-90 text-sm sm:text-base ${
               loading ? "opacity-60 cursor-not-allowed" : ""
             }`}
           >

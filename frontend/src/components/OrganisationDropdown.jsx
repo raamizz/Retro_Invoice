@@ -1,6 +1,25 @@
+import { useState, useEffect } from "react";
+
 const OrganisationDropdown = ({ onSelect }) => {
-  const handleChange = (e) => {
-    onSelect(e.target.value);
+  const [organisations, setOrganisations] = useState([]);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("organizations");
+    if (stored) {
+      try {
+        setOrganisations(JSON.parse(stored));
+      } catch (e) {
+        console.error("Failed to parse organizations from localStorage:", e);
+      }
+    }
+  }, []);
+
+   const handleChange = (e) => {
+    const selectedId = parseInt(e.target.value);
+    const selectedOrg = organisations.find((org) => org.id === selectedId);
+    if (selectedOrg) {
+      onSelect(selectedOrg); 
+    }
   };
 
   return (
@@ -17,8 +36,11 @@ const OrganisationDropdown = ({ onSelect }) => {
           <option value="" disabled>
             -- Choose an organization --
           </option>
-          <option value="Organisation1">Org 1</option>
-          <option value="Organisation2">Org 2</option>
+          {organisations.map((org) => (
+            <option key={org.id} value={org.id}>
+              {org.name}
+            </option>
+          ))}
         </select>
       </div>
     </div>

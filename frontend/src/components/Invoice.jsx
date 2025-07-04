@@ -19,7 +19,7 @@ const Invoice = () => {
       {/* Show the rest of the form only if an organization is selected */}
       {selectedOrg && (
         <React.Fragment>
-          <p className="text-2xl font-semibold">{selectedOrg}</p>
+          <p className="text-2xl font-semibold">{selectedOrg.name}</p>
           <div className="flex justify-between gap-1">
             <div className="md:w-2/4 w-full">
               <InvoiceForm />
