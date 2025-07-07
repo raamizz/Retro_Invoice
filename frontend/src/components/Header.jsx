@@ -5,6 +5,7 @@ const Header = () => {
   const navigate =useNavigate()
   const handleLogout = () => {
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("organizations");
     navigate('/login');
   };
 

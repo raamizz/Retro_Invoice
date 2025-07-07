@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import InvoiceForm from "./InvoiceForm";
 import AdditionalCostTable from "./AdditionalCostTable";
 import GSTDetailsTable from "./GSTDetailsTable";
@@ -7,6 +7,7 @@ import axios from "../utils/axios"
 
 const Invoice = () => {
   const [selectedOrg, setSelectedOrg] = useState(null);
+<<<<<<< HEAD
   const [gstDetails, setGstDetails] = useState({});
   const [additionalCosts, setAdditionalCosts] = useState([]);
   const [message, setMessage] = useState("");
@@ -27,6 +28,14 @@ const Invoice = () => {
       setMessage("Error creating invoice: " + (err.response?.data?.message || err.message));
     }
   };
+=======
+  const [gstTotal,setGstTotal]=useState(0);
+  const [additionalCost,setAdditionalCost]=useState(0);
+  const [total,setTotal]=useState(0);
+  useEffect(() => {
+    setTotal(Number(gstTotal) + Number(additionalCost));
+  }, [gstTotal, additionalCost]);
+>>>>>>> 6d37caab52ee0bba3ffc6770e1bbfc82b61f5db1
 
   return (
     <div className="px-4">
@@ -40,6 +49,7 @@ const Invoice = () => {
       {/* Show the rest of the form only if an organization is selected */}
       {selectedOrg && (
         <React.Fragment>
+<<<<<<< HEAD
           <p className="text-2xl font-semibold">{selectedOrg.name || selectedOrg}</p>
           <div className="flex justify-between gap-1">
             <div className="md:w-2/4 w-full">
@@ -54,6 +64,17 @@ const Invoice = () => {
             <div className="md:w-2/4 w-full">
               <GSTDetailsTable />
               <AdditionalCostTable />
+=======
+          <p className="text-2xl font-semibold">{selectedOrg.name}</p>
+          <div className="flex justify-between gap-1">
+            <div className="md:w-2/4 w-full">
+              <InvoiceForm  result={total}/>
+            </div>
+            <div className="md:w-2/4 w-full">
+              
+              <GSTDetailsTable gstTotal={setGstTotal}/>
+              <AdditionalCostTable additionalCost={setAdditionalCost}/>
+>>>>>>> 6d37caab52ee0bba3ffc6770e1bbfc82b61f5db1
             </div>
           </div>
         </React.Fragment>

@@ -60,6 +60,7 @@ const Login = () => {
       }
       setResponse(data);
       localStorage.setItem("refreshToken", data.accessToken);
+      localStorage.setItem("organizations",JSON.stringify(data.user.organizations));
       console.log("Login successful:", data);
       navigate('/')
       // alert("Login successful");

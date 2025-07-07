@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Organisationlist from "../components/Organisationlist";
 
 export default function Dashboard() {
 
@@ -13,7 +12,7 @@ export default function Dashboard() {
       </Link>
      
     </div>
-     <Organisationlist/>
+     {/* <Organisationlist/> */}
    </div>
   );
 }
