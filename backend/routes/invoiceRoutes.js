@@ -5,7 +5,7 @@ const auth = require('../middleware/auth');
 const upload = require('../middleware/multer')
 
 router.post(
-    '/user/invoice',
+    '/',
     auth,
     upload.fields([
       { name: 'invoice_file', maxCount: 1 },

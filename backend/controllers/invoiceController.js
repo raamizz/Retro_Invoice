@@ -7,9 +7,9 @@ exports.createInvoice = async (req, res) => {
     const {
       org_id, invoice_type, corresponding_proforma_invoice, invoice_no, invoice_date, invoice_due_date,
       purchase_order_no, received_date, port, office_vessel, currency, total_amount,
-      gstin, cgst, sgst, igst, additional_costs
+      additional_costs, additional_costs_total, tax_details, tax_details_total
     } = req.body;
-
+ 
     // Handle files
     const invoiceFile = req.files['invoice_file'] ? req.files['invoice_file'][0].path : null;
     const supportingDocs = req.files['supporting_documents']
@@ -20,13 +20,16 @@ exports.createInvoice = async (req, res) => {
       `INSERT INTO invoices (
         user_id, org_id, invoice_type, corresponding_proforma_invoice, invoice_no, invoice_date, invoice_due_date,
         purchase_order_no, received_date, port, office_vessel, currency, total_amount,
-        gstin, cgst, sgst, igst, additional_costs, invoice_file, supporting_documents
+        additional_costs, additional_costs_total, tax_details, tax_details_total,
+        invoice_file, supporting_documents
       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING id`,
       [
         userId, org_id, invoice_type, corresponding_proforma_invoice, invoice_no, invoice_date, invoice_due_date,
         purchase_order_no, received_date, port, office_vessel, currency, total_amount,
-        gstin, cgst, sgst, igst,
-        JSON.stringify(additional_costs),
+        additional_costs ? JSON.stringify(additional_costs) : null,
+        additional_costs_total,
+        tax_details ? JSON.stringify(tax_details) : null,
+        tax_details_total,
         invoiceFile,
         JSON.stringify(supportingDocs)
       ]
