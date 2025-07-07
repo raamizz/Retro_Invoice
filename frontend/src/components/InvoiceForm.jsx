@@ -8,13 +8,12 @@ const InvoiceForm = ({ form, onFormChange, total }) => {
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    // For demo, just store file names. In real use, convert to base64 or upload.
+
     if (e.target.name === "invoice_file") {
       onFormChange("invoice_file", files[0] || null);
     } else {
       onFormChange("supporting_documents", files);
     }
-    e.target.value = null;
   };
 
   return (
@@ -124,13 +123,15 @@ const InvoiceForm = ({ form, onFormChange, total }) => {
           </select>
         </div>
       </div>
+
       <div className="flex w-[80%]">
         <label className="font-medium mb-1">
           Total Amount <span className="text-red-500">*</span>
         </label>
-        <div className="ml-8 mr-2 w-[37%] bg-gray-200">{total}</div>
+        <div className="ml-8 mr-2 w-[37%] bg-gray-200 px-3 py-1 rounded">{total}</div>
       </div>
-      <div className="mb-6">
+
+      <div className="mb-6 mt-4">
         <label className="font-medium block mb-2">
           Attachments (PDF, JPG, JPEG)<span className="text-red-500">*</span>
         </label>
@@ -147,16 +148,20 @@ const InvoiceForm = ({ form, onFormChange, total }) => {
           onChange={handleFileChange}
           accept=".pdf, .jpg, .jpeg, image/jpeg, application/pdf"
           multiple
-          className="block w-full border rounded px-2 py-2 file:mr-4 file:py-1 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 mt-2"
+          className="block w-full border rounded px-2 py-2 mt-2 file:mr-4 file:py-1 file:px-4 file:rounded file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700"
         />
+
         {form.supporting_documents && form.supporting_documents.length > 0 && (
           <div className="mt-2 text-sm text-gray-700">
-            <strong>{form.supporting_documents.length}</strong> file{form.supporting_documents.length > 1 ? "s" : ""} selected
+            <strong>{form.supporting_documents.length}</strong> file
+            {form.supporting_documents.length > 1 ? "s" : ""} selected
           </div>
         )}
         <ul className="mt-2 list-disc pl-5 text-sm text-gray-700">
-          {form.supporting_documents && form.supporting_documents.map((file, idx) => (
-            <li key={idx}>{file.name || file}</li>
+          {form.supporting_documents?.map((file, idx) => (
+            <li key={idx}>
+              {file instanceof File ? file.name : file}
+            </li>
           ))}
         </ul>
       </div>
