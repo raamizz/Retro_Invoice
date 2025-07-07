@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AdditionalCostTable from "./AdditionalCostTable";
 import GSTDetailsTable from "./GSTDetailsTable";
 
-const InvoiceForm = () => {
+const InvoiceForm = ({result}) => {
   const [files, setFiles] = useState([]);
 
   const handleFileChange = (e) => {
@@ -10,6 +10,7 @@ const InvoiceForm = () => {
     setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
     e.target.value = null;
   };
+  
   return (
     <form className="">
       <div className="grid grid-cols-2 gap-4 mb-8">
@@ -83,13 +84,13 @@ const InvoiceForm = () => {
         <input type="text" className="border rounded px-2 py-1" />
       </div> */}
 
-        <div className="flex justify-between">
+      </div>
+        <div className="flex w-[80%]">
           <label className="font-medium mb-1">
             Total Amount <span className="text-red-500">*</span>
           </label>
-          <input type="text" className="border rounded px-2 py-1 w-[58%]" />
+          <div className="ml-8 mr-2 w-[37%] bg-gray-200">{result}</div>
         </div>
-      </div>
       <div className="mb-6">
         <label className="font-medium block mb-2">
           Attachments (PDF, JPG, JPEG)<span className="text-red-500">*</span>

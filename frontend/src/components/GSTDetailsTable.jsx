@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 
 const rates = [0, 3, 5, 12, 18, 28];
 
-const GSTDetailsTable = () => {
+const GSTDetailsTable = ({gstTotal}) => {
   const [gstType, setGstType] = useState("");
   const [amounts, setAmounts] = useState(rates.map(() => ""));
   const [hsnSacCodes, setHsnSacCodes] = useState(rates.map(() => ""));
@@ -70,7 +70,10 @@ const GSTDetailsTable = () => {
   });
 
   const grandTotal = rows.reduce((acc, item) => acc + item.total, 0);
-
+  useEffect(() => {
+    gstTotal(grandTotal)
+  }, [grandTotal])
+  
   return (
     <React.Fragment>
       <div className="flex flex-col col-span-2">

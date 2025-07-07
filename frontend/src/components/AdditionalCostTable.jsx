@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 
 const rows = [
   { name: "Cess" },
@@ -9,7 +9,7 @@ const rows = [
 
 const gstRates = [0, 3, 5, 12, 18, 28];
 
-const AdditionalCostTable = () => {
+const AdditionalCostTable = ({additionalCost}) => {
   const [costData, setCostData] = useState(
     rows.map(() => ({ hsn: "", amount: "", gstRate: 0 }))
   );
@@ -33,6 +33,10 @@ const AdditionalCostTable = () => {
     return acc + total;
   }, 0);
 
+  useEffect(() => {
+   additionalCost(grandTotal)
+  }, [grandTotal])
+  
   return (
     <div className="flex-1 bg-gray-50 border border-gray-200 rounded p-3">
       <h3 className="text-base font-semibold mb-2">Additional Cost</h3>

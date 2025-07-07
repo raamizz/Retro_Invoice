@@ -19,7 +19,7 @@ app.use("/api", userRoutes);
 pool.connect()
   .then(() => {
     console.log("Connected to PostGre");
-    app.listen(PORT, '0.0.0.0', () => {
+    app.listen(PORT, '172.16.100.121', () => {
       console.log(`Server running on port ${PORT}`);
     });
   })
