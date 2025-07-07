@@ -209,7 +209,11 @@ const Invoice = () => {
       {/* Show the rest of the form only if an organization is selected */}
       {selectedOrg && (
         <React.Fragment>
+          <div className="flex justify-between">
+
           <p className="text-2xl font-semibold">{selectedOrg.name}</p>
+            <button className="bg-green-600 text-white px-4 py-2 mt-2" onClick={handleSave} type="button">Save</button>
+          </div>
           <div className="flex justify-between gap-1">
             <div className="md:w-2/4 w-full">
               <InvoiceForm
@@ -217,7 +221,6 @@ const Invoice = () => {
                 onFormChange={handleFormChange}
                 total={totalAmount}
               />
-              <button className="bg-blue-600 text-white px-4 py-2 mt-4" onClick={handleSave} type="button">Save</button>
             </div>
             <div className="md:w-2/4 w-full">
               <GSTDetailsTable

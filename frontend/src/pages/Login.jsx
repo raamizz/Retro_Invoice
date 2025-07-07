@@ -79,7 +79,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-black px-4 text-black">
       <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-sm text-center">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6 ">RETRO INVOICE</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 ">VINCAP</h2>
 
         <form onSubmit={handleLogin}>
           <div className="text-left mb-4">

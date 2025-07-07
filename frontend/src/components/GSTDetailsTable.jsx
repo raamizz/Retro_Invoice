@@ -77,22 +77,22 @@ const GSTDetailsTable = ({ gstDetails, onGSTDetailsChange, onGSTTypeChange }) =>
               type="radio"
               name="gstTreatment"
               className="mr-1"
-              value="zero_rated"
-              checked={gstDetails.gstType === "zero_rated"}
+              value="igst"
+              checked={gstDetails.gstType === "igst"}
               onChange={(e) => onGSTTypeChange(e.target.value)}
             />
-            Export/Zero-Rated
+            IGST
           </label>
           <label className="flex items-center">
             <input
               type="radio"
               name="gstTreatment"
               className="mr-1"
-              value="igst"
-              checked={gstDetails.gstType === "igst"}
+              value="zero_rated"
+              checked={gstDetails.gstType === "zero_rated"}
               onChange={(e) => onGSTTypeChange(e.target.value)}
             />
-            IGST
+            Export/Zero-Rated
           </label>
           <div className="flex">
             <label className="font-medium mb-1">

@@ -19,13 +19,13 @@ const InvoiceForm = ({ form, onFormChange, total }) => {
 
   return (
     <form className="">
-      <div className="grid grid-cols-2 gap-4 mb-8">
-        <div className="flex justify-between">
-          <label className="font-medium">
+      <div className="gap-4 mb-8 text-sm">
+        <div className="flex ">
+          <label className="font-medium ">
             Invoice Type <span className="text-red-500">*</span>
           </label>
           <select
-            className="border rounded p-1"
+            className="border rounded "
             name="invoice_type"
             value={form.invoice_type}
             onChange={handleInputChange}
@@ -37,17 +37,17 @@ const InvoiceForm = ({ form, onFormChange, total }) => {
             <option>Vendor Proforma Invoice</option>
           </select>
         </div>
-        <div className="flex w-full justify-between">
-          <label className="font-medium mb-1">Proforma Invoice</label>
+        <div className="flex w-full text-sm">
+          <label className="font-medium mb-1">Correspondance Proforma Invoice(If Any)</label>
           <input
             type="text"
-            className="border rounded px-2 py-1"
+            className="border rounded "
             name="corresponding_proforma_invoice"
             value={form.corresponding_proforma_invoice}
             onChange={handleInputChange}
           />
         </div>
-        <div className="flex justify-between">
+        <div className="flex ">
           <label className="font-medium mb-1">
             Invoice No. <span className="text-red-500">*</span>
           </label>
@@ -59,7 +59,7 @@ const InvoiceForm = ({ form, onFormChange, total }) => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="flex justify-between">
+        <div className="flex ">
           <label className="font-medium mb-1">
             Invoice Date <span className="text-red-500">*</span>
           </label>
@@ -71,7 +71,7 @@ const InvoiceForm = ({ form, onFormChange, total }) => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="flex justify-between">
+        <div className="flex ">
           <label className="font-medium mb-1">Invoice Due Date</label>
           <input
             type="date"
@@ -81,7 +81,7 @@ const InvoiceForm = ({ form, onFormChange, total }) => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="flex justify-between">
+        <div className="flex">
           <label className="font-medium mb-1">Purchase Order No.</label>
           <input
             type="text"
@@ -91,8 +91,8 @@ const InvoiceForm = ({ form, onFormChange, total }) => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="flex justify-between">
-          <label className="font-medium mb-1">Received Date</label>
+        <div className="flex">
+          <label className="font-medium mb-1">Purchase Order Date</label>
           <input
             type="date"
             className="border rounded px-2 py-1 w-[58%]"
@@ -101,7 +101,7 @@ const InvoiceForm = ({ form, onFormChange, total }) => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="flex justify-between">
+        <div className="flex">
           <label className="font-medium mb-1">Port </label>
           <select
             className="border rounded px-2 py-1 w-[58%]"
@@ -112,7 +112,7 @@ const InvoiceForm = ({ form, onFormChange, total }) => {
             <option>Mumbai Port</option>
           </select>
         </div>
-        <div className="flex justify-between">
+        <div className="flex">
           <label className="font-medium mb-1">Office/Vessel </label>
           <select
             className="border rounded px-2 py-1 w-[60%]"
