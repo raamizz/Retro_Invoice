@@ -83,7 +83,7 @@ const Invoice = () => {
       const gst = parseFloat(item.tax_rate || 0);
       const taxTotal = (amt * gst) / 100;
       return acc + amt + taxTotal;
-    }, 0);
+    }, 0); 
     setAdditionalCostsTotal(addTotal);
 
     // GST Details Total (use same logic as GSTDetailsTable)
@@ -132,68 +132,85 @@ const Invoice = () => {
 
   // Save handler
   const handleSave = async () => {
-    // Calculate per-row tax breakdown for tax_details
-    const token = localStorage.getItem('refreshToken')
-    const taxDetails = gstDetails.rows.filter(r => r.amount > 0).map(r => {
-      const amt = parseFloat(r.amount || 0);
-      const rate = parseFloat(r.rate || 0);
-      let sgst = 0, cgst = 0, igst = 0;
-      if (gstDetails.gstType === "cgst_sgst") {
-        sgst = (amt * rate) / 200;
-        cgst = (amt * rate) / 200;
-      } else if (gstDetails.gstType === "igst") {
-        igst = (amt * rate) / 100;
-      }
-      return {
-        sgst: sgst,
-        cgst: cgst,
-        igst: igst,
-        hsn_sac: r.hsn_sac,
-        tax_rate: r.rate
-      };
+    const token = localStorage.getItem("refreshToken");
+  
+    // Prepare tax_details array
+    const taxDetails = gstDetails.rows
+      .filter((r) => r.amount > 0)
+      .map((r) => {
+        const amt = parseFloat(r.amount || 0);
+        const rate = parseFloat(r.rate || 0);
+        let sgst = 0,
+          cgst = 0,
+          igst = 0;
+        if (gstDetails.gstType === "cgst_sgst") {
+          sgst = (amt * rate) / 200;
+          cgst = (amt * rate) / 200;
+        } else if (gstDetails.gstType === "igst") {
+          igst = (amt * rate) / 100;
+        }
+        return {
+          sgst,
+          cgst,
+          igst,
+          hsn_sac: r.hsn_sac,
+          tax_rate: rate,
+        };
+      });
+  
+    // Create FormData
+    const formData = new FormData();
+    formData.append("org_id", selectedOrg?.id || "");
+    formData.append("invoice_type", form.invoice_type);
+    formData.append("corresponding_proforma_invoice", form.corresponding_proforma_invoice);
+    formData.append("invoice_no", form.invoice_no);
+    formData.append("invoice_date", form.invoice_date);
+    formData.append("invoice_due_date", form.invoice_due_date);
+    formData.append("purchase_order_no", form.purchase_order_no);
+    formData.append("received_date", form.received_date);
+    formData.append("port", form.port);
+    formData.append("office_vessel", form.office_vessel);
+    formData.append("currency", form.currency);
+    formData.append("total_amount", totalAmount.toFixed(2));
+    formData.append("additional_costs_total", additionalCostsTotal.toFixed(2));
+    formData.append("tax_details_total", taxDetailsTotal.toFixed(2));
+    formData.append("igst_total", igstTotal.toFixed(2));
+  
+    // Append invoice_file
+    if (form.invoice_file) {
+      formData.append("invoice_file", form.invoice_file);
+    }
+  
+    // Append supporting_documents (multiple files)
+    form.supporting_documents.forEach((file) => {
+      formData.append("supporting_documents", file);
     });
-    const json = {
-      org_id: selectedOrg ? selectedOrg.id : "",
-      invoice_type: form.invoice_type,
-      corresponding_proforma_invoice: form.corresponding_proforma_invoice,
-      invoice_no: form.invoice_no,
-      invoice_date: form.invoice_date,
-      invoice_due_date: form.invoice_due_date,
-      purchase_order_no: form.purchase_order_no,
-      received_date: form.received_date,
-      port: form.port,
-      office_vessel: form.office_vessel,
-      currency: form.currency,
-      total_amount: totalAmount.toFixed(2),
-      additional_costs: additionalCosts.filter(c => c.amount > 0).map(c => ({
+  
+    // Stringify JSON arrays
+    const additionalCostsJson = additionalCosts
+      .filter((c) => c.amount > 0)
+      .map((c) => ({
         type: c.type,
         amount: Number(c.amount),
         hsn_sac: c.hsn_sac,
-        tax_rate: Number(c.tax_rate)
-      })),
-      additional_costs_total: additionalCostsTotal.toFixed(2),
-      tax_details: taxDetails,
-      tax_details_total: taxDetailsTotal.toFixed(2),
-      igst_total: igstTotal.toFixed(2),
-      invoice_file: form.invoice_file, // handle as base64 or binary string
-      supporting_documents: form.supporting_documents // handle as base64 or binary strings
-    };
+        tax_rate: Number(c.tax_rate),
+      }));
+  
+    formData.append("additional_costs", JSON.stringify(additionalCostsJson));
+    formData.append("tax_details", JSON.stringify(taxDetails));
+  
     try {
-      const response = await axios.post(
-        'http://192.168.0.172:5000/api/invoices',
-        json,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        }
-      );
-      console.log('Server response:', response.data);
-      alert('Invoice saved successfully!');
+      const response = await instance.post("/api/invoices", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Server response:", response.data);
+      alert("Invoice saved successfully!");
     } catch (error) {
-      console.error('Error saving invoice:', error);
-      alert('Failed to save invoice.');
+      console.error("Error saving invoice:", error.response?.data || error.message);
+      alert("Failed to save invoice.");
     }
   };
 
