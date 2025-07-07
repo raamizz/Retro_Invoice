@@ -4,6 +4,8 @@ const ACCESS_TOKEN_EXPIRES_IN = '15m';
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
+  console.log('Authorization header:', authHeader); 
+  if (!authHeader) return res.status(401).json({ message: 'No token provided' });
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) return res.sendStatus(401);
 
@@ -18,7 +20,7 @@ function authenticateToken(req, res, next) {
       const newToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRES_IN });
       res.setHeader('x-new-token', newToken);
     }
-    next();
+    next(); 
   });
 
   
