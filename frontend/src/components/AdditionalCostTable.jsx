@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React from "react";
 
 const rows = [
   { name: "Cess" },
@@ -9,17 +9,7 @@ const rows = [
 
 const gstRates = [0, 3, 5, 12, 18, 28];
 
-const AdditionalCostTable = ({additionalCost}) => {
-  const [costData, setCostData] = useState(
-    rows.map(() => ({ hsn: "", amount: "", gstRate: 0 }))
-  );
-
-  const handleChange = (index, field, value) => {
-    const updated = [...costData];
-    updated[index][field] = field === "amount" ? parseFloat(value || 0) : value;
-    setCostData(updated);
-  };
-
+const AdditionalCostTable = ({ additionalCosts, onAdditionalCostChange }) => {
   const calculateRow = (amount, rate) => {
     const amt = parseFloat(amount || 0);
     const gst = parseFloat(rate || 0);
@@ -28,15 +18,11 @@ const AdditionalCostTable = ({additionalCost}) => {
     return { taxTotal, total };
   };
 
-  const grandTotal = costData.reduce((acc, item) => {
-    const { total } = calculateRow(item.amount, item.gstRate);
+  const grandTotal = additionalCosts.reduce((acc, item) => {
+    const { total } = calculateRow(item.amount, item.tax_rate);
     return acc + total;
   }, 0);
 
-  useEffect(() => {
-   additionalCost(grandTotal)
-  }, [grandTotal])
-  
   return (
     <div className="flex-1 bg-gray-50 border border-gray-200 rounded p-3">
       <h3 className="text-base font-semibold mb-2">Additional Cost</h3>
@@ -66,8 +52,8 @@ const AdditionalCostTable = ({additionalCost}) => {
         <tbody>
           {rows.map((row, idx) => {
             const { taxTotal, total } = calculateRow(
-              costData[idx].amount,
-              costData[idx].gstRate
+              additionalCosts[idx].amount,
+              additionalCosts[idx].tax_rate
             );
             return (
               <tr key={idx}>
@@ -76,8 +62,8 @@ const AdditionalCostTable = ({additionalCost}) => {
                   <input
                     type="text"
                     className="w-full focus:outline-none focus:ring-0 px-2 py-1"
-                    value={costData[idx].hsn}
-                    onChange={(e) => handleChange(idx, "hsn", e.target.value)}
+                    value={additionalCosts[idx].hsn_sac}
+                    onChange={(e) => onAdditionalCostChange(idx, "hsn_sac", e.target.value)}
                   />
                 </td>
                 <td className="border border-gray-300 text-right">
@@ -86,18 +72,18 @@ const AdditionalCostTable = ({additionalCost}) => {
                     min="0"
                     step="0.01"
                     className="w-full text-right px-2 py-1 focus:outline-none focus:ring-0"
-                    value={costData[idx].amount}
+                    value={additionalCosts[idx].amount}
                     onChange={(e) =>
-                      handleChange(idx, "amount", e.target.value)
+                      onAdditionalCostChange(idx, "amount", e.target.value)
                     }
                   />
                 </td>
                 <td className="border border-gray-300 text-right">
                   <select
                     className="w-full px-2 py-1 border-none text-right bg-transparent focus:outline-none"
-                    value={costData[idx].gstRate}
+                    value={additionalCosts[idx].tax_rate}
                     onChange={(e) =>
-                      handleChange(idx, "gstRate", parseFloat(e.target.value))
+                      onAdditionalCostChange(idx, "tax_rate", parseFloat(e.target.value))
                     }
                   >
                     {gstRates.map((rate) => (
