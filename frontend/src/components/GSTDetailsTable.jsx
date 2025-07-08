@@ -98,9 +98,51 @@ const GSTDetailsTable = ({ gstDetails, onGSTDetailsChange, onGSTTypeChange }) =>
             <label className="font-medium mb-1">
               Currency <span className="text-red-500">*</span>
             </label>
-            <select className="border rounded px-2 py-1" value="INR">
-              <option value='inr'>INR</option>
-            </select>
+            <select className="border rounded px-2 py-1">
+                  <option disabled selected>Select currency</option>
+                  <option value="aed">AED</option>
+                  <option value="ars">ARS</option>
+                  <option value="aud">AUD</option>
+                  <option value="bdt">BDT</option>
+                  <option value="bgn">BGN</option>
+                  <option value="brl">BRL</option>
+                  <option value="cad">CAD</option>
+                  <option value="chf">CHF</option>
+                  <option value="clp">CLP</option>
+                  <option value="cny">CNY</option>
+                  <option value="czk">CZK</option>
+                  <option value="dkk">DKK</option>
+                  <option value="egp">EGP</option>
+                  <option value="eur">EUR</option>
+                  <option value="gbp">GBP</option>
+                  <option value="hkd">HKD</option>
+                  <option value="huf">HUF</option>
+                  <option value="idr">IDR</option>
+                  <option value="ils">ILS</option>
+                  <option value="inr">INR</option>
+                  <option value="jpy">JPY</option>
+                  <option value="krw">KRW</option>
+                  <option value="mxn">MXN</option>
+                  <option value="myr">MYR</option>
+                  <option value="ngn">NGN</option>
+                  <option value="nok">NOK</option>
+                  <option value="nzd">NZD</option>
+                  <option value="php">PHP</option>
+                  <option value="pln">PLN</option>
+                  <option value="ron">RON</option>
+                  <option value="rub">RUB</option>
+                  <option value="sar">SAR</option>
+                  <option value="sek">SEK</option>
+                  <option value="sgd">SGD</option>
+                  <option value="thb">THB</option>
+                  <option value="try">TRY</option>
+                  <option value="twd">TWD</option>
+                  <option value="uah">UAH</option>
+                  <option value="usd">USD</option>
+                  <option value="vnd">VND</option>
+                  <option value="zar">ZAR</option>
+</select>
+
           </div>
         </div>
       </div>

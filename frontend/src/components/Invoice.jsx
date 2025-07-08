@@ -48,6 +48,7 @@ const Invoice = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [additionalCostsTotal, setAdditionalCostsTotal] = useState(0);
   const [taxDetailsTotal, setTaxDetailsTotal] = useState(0);
+  const [errors, setErrors] = useState([]);
 
   // Handlers for InvoiceForm fields
   const handleFormChange = (field, value) => {
@@ -130,8 +131,54 @@ const Invoice = () => {
     return acc;
   }, 0);
 
+  // Validation function
+  const validateInvoice = () => {
+    const errs = [];
+    // Organisation
+    if (!selectedOrg) {
+      errs.push("Please select an organisation.");
+    }
+    // Required form fields
+    if (!form.invoice_type) errs.push("Invoice type is required.");
+    if (!form.invoice_no) errs.push("Invoice number is required.");
+    if (!form.invoice_date) errs.push("Invoice date is required.");
+    if (!form.invoice_file) errs.push("Invoice file is required.");
+
+    const gstHasAmount = gstDetails.rows.some((r) => parseFloat(r.amount) > 0);
+    const addCostHasAmount = additionalCosts.some((c) => parseFloat(c.amount) > 0);
+    if (!gstHasAmount && !addCostHasAmount) {
+      errs.push("At least one GST or Additional Cost amount must be greater than 0.");
+    }
+
+    gstDetails.rows.forEach((r, idx) => {
+      if (parseFloat(r.amount) > 0 && parseFloat(r.rate) > 0 && !r.hsn_sac) {
+        errs.push(`HSN/SAC is required for GST row with rate ${r.rate}% and amount > 0.`);
+      }
+    });
+    additionalCosts.forEach((c, idx) => {
+      if (parseFloat(c.amount) > 0 && parseFloat(c.tax_rate) > 0 && !c.hsn_sac) {
+        errs.push(`HSN/SAC is required for Additional Cost '${c.type}' with tax rate > 0 and amount > 0.`);
+      }
+    });
+
+    if (gstDetails.gstType !== "zero_rated" && !gstHasAmount) {
+      errs.push("At least one GST row must have amount > 0 for selected GST type.");
+    }
+
+
+    return errs;
+  };
+
   // Save handler
   const handleSave = async () => {
+    const validationErrors = validateInvoice();
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    } else {
+      setErrors([]);
+    }
     const token = localStorage.getItem("refreshToken");
   
     // Prepare tax_details array
@@ -216,6 +263,16 @@ const Invoice = () => {
 
   return (
     <div className="px-4">
+      {/* Show errors if any */}
+      {errors.length > 0 && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <ul className="list-disc pl-5">
+            {errors.map((err, idx) => (
+              <li key={idx}>{err}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       {/* Show dropdown only if no org is selected */}
       {!selectedOrg && (
         <div className="mb-4">
@@ -231,15 +288,15 @@ const Invoice = () => {
           <p className="text-2xl font-semibold">{selectedOrg.name}</p>
             <button className="bg-green-600 text-white px-4 py-2 mt-2" onClick={handleSave} type="button">Save</button>
           </div>
-          <div className="flex justify-between gap-1">
-            <div className="md:w-2/4 w-full">
+          <div className="flex gap-1">
+            <div className="md:w-2/4">
               <InvoiceForm
                 form={form}
                 onFormChange={handleFormChange}
                 total={totalAmount}
               />
             </div>
-            <div className="md:w-2/4 w-full">
+            <div className="md:w-2/4">
               <GSTDetailsTable
                 gstDetails={gstDetails}
                 onGSTDetailsChange={handleGSTDetailsChange}
